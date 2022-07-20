@@ -14,7 +14,7 @@ namespace SnakeAndLadder.Gameplay {
             
             if (blockList.Count > 0) {
                 Vector3 newOffset = offset;
-                newOffset.y = 0.1f;
+                newOffset.y = 0.03f;
                 GetLastBlock().SetNextBlock(block);
                 block.SetPosition(GetLastBlock().GetPosition() + newOffset);
 
