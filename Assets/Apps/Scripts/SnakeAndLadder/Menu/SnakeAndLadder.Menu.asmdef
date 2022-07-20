@@ -1,7 +1,10 @@
 {
     "name": "SnakeAndLadder.Menu",
     "rootNamespace": "SnakeAndLadder.Menu",
-    "references": [],
+    "references": [
+        "GUID:5af3709bfc0786542a0a953e76f2aedd",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
