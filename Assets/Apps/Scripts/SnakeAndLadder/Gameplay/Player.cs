@@ -5,6 +5,7 @@ using UnityEngine;
 namespace SnakeAndLadder.Gameplay {
     internal class Player : MonoBehaviour {
         private Block block;
+        public PlayerLabel PlayerLabel { set; get; }
 
         public event Action OnArrived;
 

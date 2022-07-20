@@ -51,6 +51,7 @@ namespace SnakeAndLadder.Gameplay
             for (int i=0; i<PersistentData.playerCount; i++) {
                 playerList.Add(Instantiate(playerPrefab, transform).GetComponent<Player>());
                 playerList[i].SetPosition(World.GetBlock(1));
+                playerList[i].PlayerLabel = (PlayerLabel)i;
             }
         }
 
