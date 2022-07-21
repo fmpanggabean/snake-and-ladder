@@ -11,6 +11,7 @@ namespace SnakeAndLadder.Gameplay
     public class PlayerManager : MonoBehaviour
     {
         private World World => FindObjectOfType<World>();
+        private BlockEffectManager BlockEffectManager => FindObjectOfType<BlockEffectManager>();
 
         public PersistentData PersistentData;
         [SerializeField] private GameObject playerPrefab;
@@ -58,14 +59,13 @@ namespace SnakeAndLadder.Gameplay
         }
         private void PlayerArrived() {
             //evaluate block
+            BlockEffectManager.Evaluate();
 
-
-
-            //int turn = ((int)this.turn) + 1;
-            //if (turn >= playerList.Count) {
-            //    turn = 0;
-            //}
-            //OnPlayerArrived?.Invoke((PlayerLabel)turn);
+            int turn = ((int)this.turn) + 1;
+            if (turn >= playerList.Count) {
+                turn = 0;
+            }
+            OnPlayerArrived?.Invoke((PlayerLabel)turn);
         }
         internal Player GetCurrentPlayer() {
             return playerList[((int)turn)];
