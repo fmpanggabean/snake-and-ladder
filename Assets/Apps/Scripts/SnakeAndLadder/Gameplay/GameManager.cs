@@ -18,7 +18,7 @@ namespace SnakeAndLadder.Gameplay
             PlayerManager.OnNextTurn += SetTurn;
         }
         private void Start() {
-            SetTurn(PlayerLabel.Player1);
+            //SetTurn(PlayerLabel.Player1);
             
         }
         public void SetTurn(PlayerLabel playerLabel) {

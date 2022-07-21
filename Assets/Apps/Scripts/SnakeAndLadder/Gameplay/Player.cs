@@ -8,6 +8,7 @@ namespace SnakeAndLadder.Gameplay {
         public PlayerLabel PlayerLabel { set; get; }
 
         public event Action OnArrived;
+        public event Action<PlayerLabel> OnLabelSet;
 
         internal void SetPosition(Block block) {
             transform.position = block.GetPosition();
@@ -32,6 +33,11 @@ namespace SnakeAndLadder.Gameplay {
                 yield return new WaitForSeconds(0.3f);
             }
             OnArrived?.Invoke();
+        }
+
+        internal void SetLabel(PlayerLabel playerLabel) {
+            PlayerLabel = playerLabel;
+            OnLabelSet?.Invoke(PlayerLabel);
         }
     }
 }
