@@ -17,11 +17,10 @@ namespace SnakeAndLadder.Gameplay
             Dice.OnDiceThrowStart += ShowRandomDice;
             Dice.OnDiceThrowEnd += StopRandomDice;
             Dice.OnDiceThrow += ShowDice;
-        }
 
-        private void Start() {
-            Hide();
             diceCoroutine = RandomDice();
+
+            Hide();
         }
 
         private void StopRandomDice() {

@@ -18,5 +18,9 @@ namespace SnakeAndLadder.Gameplay {
         internal void SetPosition(Vector3 position) {
             transform.position = position;
         }
+
+        internal Block GetNextBlock() {
+            return nextBlock;
+        }
     } 
 }

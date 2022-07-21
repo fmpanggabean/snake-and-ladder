@@ -38,5 +38,9 @@ namespace SnakeAndLadder.Gameplay {
                 GetLastBlock().SetNextBlock(null);
             }
         }
+
+        internal Block GetBlock(int blockNumber) {
+            return blockList[blockNumber - 1];
+        }
     }
 }
