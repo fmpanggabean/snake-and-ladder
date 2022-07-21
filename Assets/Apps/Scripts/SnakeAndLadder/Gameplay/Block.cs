@@ -10,6 +10,9 @@ namespace SnakeAndLadder.Gameplay {
         internal void SetNextBlock(Block block) {
             nextBlock = block;
         }
+        public Block GetNextBlock() {
+            return nextBlock;
+        }
 
         internal Vector3 GetPosition() {
             return transform.position;

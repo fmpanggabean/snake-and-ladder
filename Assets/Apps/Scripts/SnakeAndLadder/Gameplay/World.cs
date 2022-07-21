@@ -6,14 +6,20 @@ using UnityEditor;
 
 namespace SnakeAndLadder.Gameplay {
     public class World : MonoBehaviour {
+        [SerializeField]
+        private GameObject blockPrefab;
+        [SerializeField]
+        private List<Block> blockList;
 
-        public GameObject blockPrefab;
+        public Block GetBlock(int index) {
+            return blockList[index];
+        }
 
-        public List<Block> blockList;
+#if UNITY_EDITOR
         public void CreateBlock(Vector3 offset) {
-            //Block block = Instantiate(blockPrefab, transform).GetComponent<Block>();
-            GameObject gameObject = (GameObject)PrefabUtility.InstantiatePrefab(blockPrefab, transform);
-            Block block = gameObject.GetComponent<Block>();
+            Block block = Instantiate(blockPrefab, transform).GetComponent<Block>();
+            //GameObject gameObject = (GameObject)PrefabUtility.InstantiatePrefab(blockPrefab, transform);
+            //Block block = gameObject.GetComponent<Block>();
             
             if (blockList.Count > 0) {
                 Vector3 newOffset = offset;
@@ -24,14 +30,12 @@ namespace SnakeAndLadder.Gameplay {
             }
             blockList.Add(block);
         }
-
         private Block GetLastBlock() {
             if (blockList.Count <= 0)
                 return null;
 
             return blockList[blockList.Count - 1];
         }
-
         internal void RemoveLast() {
             Block block = GetLastBlock();
             blockList.Remove(block);
@@ -41,5 +45,6 @@ namespace SnakeAndLadder.Gameplay {
                 GetLastBlock().SetNextBlock(null);
             }
         }
+#endif
     }
 }

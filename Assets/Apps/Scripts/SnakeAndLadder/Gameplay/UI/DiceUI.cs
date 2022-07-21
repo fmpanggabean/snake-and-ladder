@@ -10,7 +10,8 @@ namespace SnakeAndLadder.Gameplay
     public class DiceUI : MonoBehaviour {
         private Animator Animator => GetComponent<Animator>();
         private Dice Dice => FindObjectOfType<Dice>();
-
+        private PlayerManager PlayerManager => FindObjectOfType<PlayerManager>();
+        
         private event Action OnUIShown;
         private event Action OnUIHidden;
 
@@ -26,6 +27,22 @@ namespace SnakeAndLadder.Gameplay
             OnUIHidden += Dice.EndRollingDice;
             Dice.OnRandomize += SetTextRandomNumber;
             Dice.OnRandomizeEnd += HideMenu;
+            Dice.OnEnabled += EnableRollButton;
+            Dice.OnDisabled += DisableRollButton;
+
+            PlayerManager.OnPlayerArrived += ShowRollButton;
+        }
+
+        private void ShowRollButton() {
+            Show(ButtonRoll.gameObject);
+        }
+
+        private void EnableRollButton() {
+            ButtonRoll.enabled = true;
+        }
+
+        private void DisableRollButton() {
+            ButtonRoll.enabled = false;
         }
 
         private void SetTextRandomNumber(int rand) {
@@ -39,7 +56,7 @@ namespace SnakeAndLadder.Gameplay
             Hide(TextRandomNumber.gameObject);
 
             Animator.SetTrigger("Show");
-            while (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f || Animator.IsInTransition(0)) {
+            while (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1f || Animator.IsInTransition(0)) {
                 yield return null;
             }
             Show(TextRandomNumber.gameObject);
@@ -50,10 +67,9 @@ namespace SnakeAndLadder.Gameplay
         }
         private IEnumerator HideMenuCoroutine() {
             Animator.SetTrigger("Hide");
-            while (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f || Animator.IsInTransition(0)) {
+            while (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1f || Animator.IsInTransition(0)) {
                 yield return null;
             }
-            Show(ButtonRoll.gameObject);
             Hide(TextRandomNumber.gameObject);
 
             OnUIHidden?.Invoke();

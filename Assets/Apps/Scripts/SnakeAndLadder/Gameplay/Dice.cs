@@ -11,17 +11,28 @@ namespace SnakeAndLadder.Gameplay
         public event Action<int> OnRandomize;
         public event Action OnRandomizeEnd;
         public event Action<int> OnDiceEnd;
+        public event Action OnEnabled;
+        public event Action OnDisabled;
 
         public int minValue;
         public int maxValue;
         [SerializeField]
         private int diceValue;
 
-        private void Update() {
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                Roll();
-            }
+        //private void Update() {
+        //    if (Input.GetKeyDown(KeyCode.Space)) {
+        //        Roll();
+        //    }
+        //}
+
+        internal void Disable() {
+            OnDisabled?.Invoke();
         }
+
+        internal void Enabled() {
+            OnEnabled?.Invoke();
+        }
+
         public void Roll() {
             OnDiceStart?.Invoke();
         }
