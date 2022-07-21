@@ -12,18 +12,22 @@ namespace SnakeAndLadder.Gameplay
         private CinemachineVirtualCamera CinemachineVirtualCamera => FindObjectOfType<CinemachineVirtualCamera>();
         private Dice Dice => FindObjectOfType<Dice>();
 
+        public event Action<PlayerLabel> OnTurnChanged;
+
 
         private void Awake() {
             Dice.OnDiceThrow += PlayerManager.Move;
-            PlayerManager.OnNextTurn += SetTurn;
-        }
+            PlayerManager.OnPlayerArrived += SetTurn;
+        }   
         private void Start() {
+            //SetTurn(PlayerLabel.Player1);
+            PlayerManager.Initialize();
             SetTurn(PlayerLabel.Player1);
-            
         }
         public void SetTurn(PlayerLabel playerLabel) {
             PlayerManager.SetTurn(playerLabel);
             SetCameraFollow();
+            OnTurnChanged?.Invoke(playerLabel);
         }
 
         private void SetCameraFollow() {

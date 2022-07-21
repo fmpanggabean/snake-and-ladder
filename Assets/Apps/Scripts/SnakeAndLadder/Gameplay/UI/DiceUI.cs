@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 namespace SnakeAndLadder.Gameplay
@@ -10,17 +11,34 @@ namespace SnakeAndLadder.Gameplay
     {
         private Dice Dice => FindObjectOfType<Dice>();
 
-        [SerializeField] private TMP_Text diceText;
+        [SerializeField]
+        private GameObject rollDiceWindow;
+        [SerializeField]
+        private TMP_Text diceText;
+        [SerializeField]
+        private Button rollButton;
+
         private IEnumerator diceCoroutine;
 
         private void Awake() {
             Dice.OnDiceThrowStart += ShowRandomDice;
             Dice.OnDiceThrowEnd += StopRandomDice;
             Dice.OnDiceThrow += ShowDice;
+            rollButton.onClick.AddListener(Dice.Throw);
 
             diceCoroutine = RandomDice();
 
-            Hide();
+            //Hide();
+            HideRollingDice();
+        }
+
+        private void HideRollingDice() {
+            rollDiceWindow.gameObject.SetActive(false);
+            rollButton.gameObject.SetActive(true);
+        }
+        private void ShowRollingDice() {
+            rollDiceWindow.gameObject.SetActive(true);
+            rollButton.gameObject.SetActive(false);
         }
 
         private void StopRandomDice() {
@@ -29,12 +47,16 @@ namespace SnakeAndLadder.Gameplay
         }
 
         private void ShowRandomDice() {
-            Show();
+            ShowRollingDice();
+            //Show();
+            //rollButton.gameObject.SetActive(false);
             StartCoroutine(diceCoroutine);
         }
         private IEnumerator DelayedHide() {
             yield return new WaitForSeconds(1);
-            Hide();
+            //rollButton.gameObject.SetActive(true);
+            //Hide();
+            HideRollingDice();
         }
         private IEnumerator RandomDice() {
             while (true) {
