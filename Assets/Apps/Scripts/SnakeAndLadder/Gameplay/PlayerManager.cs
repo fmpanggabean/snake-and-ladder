@@ -30,6 +30,13 @@ namespace SnakeAndLadder.Gameplay
 
         internal void Initialize() {
             GeneratePlayer();
+            SetStartingPosition();
+        }
+
+        private void SetStartingPosition() {
+            for (int i = 0; i < PersistentData.playerCount; i++) {
+                playerList[i].SetPosition(World.GetBlock(1));
+            }
         }
         private void GenerateEvent() {
             for (int i = 0; i < PersistentData.playerCount; i++) {

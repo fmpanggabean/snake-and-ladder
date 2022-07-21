@@ -15,11 +15,13 @@ namespace SnakeAndLadder.Gameplay
 
         private void Awake() {
             Dice.OnDiceThrow += PlayerManager.Move;
-            PlayerManager.OnNextTurn += SetTurn;
+            //PlayerManager.OnNextTurn += SetTurn;
+            
         }   
         private void Start() {
             //SetTurn(PlayerLabel.Player1);
             PlayerManager.Initialize();
+            SetTurn(PlayerLabel.Player1);
         }
         public void SetTurn(PlayerLabel playerLabel) {
             PlayerManager.SetTurn(playerLabel);
