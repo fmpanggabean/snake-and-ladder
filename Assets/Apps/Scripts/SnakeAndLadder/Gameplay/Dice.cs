@@ -11,6 +11,8 @@ namespace SnakeAndLadder.Gameplay
         public event Action<int> OnRandomize;
         public event Action OnRandomizeEnd;
         public event Action<int> OnDiceEnd;
+        public event Action OnEnabled;
+        public event Action OnDisabled;
 
         public int minValue;
         public int maxValue;
@@ -22,6 +24,15 @@ namespace SnakeAndLadder.Gameplay
                 Roll();
             }
         }
+
+        internal void Disable() {
+            OnDisabled?.Invoke();
+        }
+
+        internal void Enabled() {
+            OnEnabled?.Invoke();
+        }
+
         public void Roll() {
             OnDiceStart?.Invoke();
         }
