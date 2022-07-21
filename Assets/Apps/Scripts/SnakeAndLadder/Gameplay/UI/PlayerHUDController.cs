@@ -8,6 +8,7 @@ namespace SnakeAndLadder.Gameplay
     public class PlayerHUDController : MonoBehaviour
     {
         private PlayerManager PlayerManager => FindObjectOfType<PlayerManager>();
+        private GameManager GameManager => FindObjectOfType<GameManager>();
 
         [SerializeField]
         private GameObject playerHUDPrefab;
@@ -22,6 +23,17 @@ namespace SnakeAndLadder.Gameplay
 
         private void Awake() {
             PlayerManager.OnPlayerGenerated += GenerateHUD;
+            GameManager.OnTurnChanged += HighlightCurrentPlayer;
+        }
+
+        private void HighlightCurrentPlayer(PlayerLabel playerLabel) {
+            foreach (PlayerHUD hud in playerHUDs) {
+                if (hud.PlayerLabel == playerLabel) {
+                    hud.SetAsHighlight(true);
+                } else {
+                    hud.SetAsHighlight(false);
+                }
+            }
         }
 
         private void GenerateHUD(List<Player> players) {

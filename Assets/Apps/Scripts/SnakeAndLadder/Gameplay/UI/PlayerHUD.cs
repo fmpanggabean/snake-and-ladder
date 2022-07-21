@@ -9,13 +9,11 @@ namespace SnakeAndLadder.Gameplay
     {
         public TMP_Text playerLabelText;
         public GameObject dimmer;
-
-        private void Start() {
-            SetAsHighlight(false);
-        }
+        public PlayerLabel PlayerLabel;
 
         public void SetLabel(PlayerLabel playerLabel) {
             playerLabelText.text = playerLabel.ToString();
+            PlayerLabel = playerLabel;
         }
         public void SetAsHighlight(bool isHighlighted) {
             if (isHighlighted) {
