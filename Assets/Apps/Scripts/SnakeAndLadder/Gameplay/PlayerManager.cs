@@ -16,7 +16,7 @@ namespace SnakeAndLadder.Gameplay
         [SerializeField] private GameObject playerPrefab;
 
         public event Action<PlayerLabel> OnSetTurn;
-        public event Action<PlayerLabel> OnNextTurn;
+        public event Action<PlayerLabel> OnPlayerArrived;
         public event Action<List<Player>> OnPlayerGenerated;
 
         private List<Player> playerList = new List<Player>();
@@ -24,6 +24,7 @@ namespace SnakeAndLadder.Gameplay
         public PlayerLabel turn;
 
         private void Awake() {
+
             //GeneratePlayer();
             //GenerateEvent();
         }
@@ -31,6 +32,7 @@ namespace SnakeAndLadder.Gameplay
         internal void Initialize() {
             GeneratePlayer();
             SetStartingPosition();
+            GenerateEvent();
         }
 
         private void SetStartingPosition() {
@@ -40,7 +42,7 @@ namespace SnakeAndLadder.Gameplay
         }
         private void GenerateEvent() {
             for (int i = 0; i < PersistentData.playerCount; i++) {
-                playerList[i].OnArrived += NextTurn;
+                playerList[i].OnArrived += PlayerArrived;
             }
         }
         private void GeneratePlayer() {
@@ -54,13 +56,16 @@ namespace SnakeAndLadder.Gameplay
         internal void Move(int move) {
             GetCurrentPlayer().Move(move);
         }
-        private void NextTurn() {
-            int turn = ((int)this.turn) + 1;
-            if (turn >= 4) {
-                turn = 0;
-            }
-            OnNextTurn?.Invoke((PlayerLabel)turn);
-            //this.turn = (PlayerLabel)turn;
+        private void PlayerArrived() {
+            //evaluate block
+
+
+
+            //int turn = ((int)this.turn) + 1;
+            //if (turn >= playerList.Count) {
+            //    turn = 0;
+            //}
+            //OnPlayerArrived?.Invoke((PlayerLabel)turn);
         }
         internal Player GetCurrentPlayer() {
             return playerList[((int)turn)];

@@ -39,5 +39,9 @@ namespace SnakeAndLadder.Gameplay {
             PlayerLabel = playerLabel;
             OnLabelSet?.Invoke(PlayerLabel);
         }
+
+        internal Block GetBlock() {
+            return block;
+        }
     }
 }
