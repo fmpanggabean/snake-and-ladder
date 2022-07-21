@@ -15,6 +15,7 @@ namespace SnakeAndLadder.Gameplay
         public event Action OnDiceThrowEnd;
 
         private void Update() {
+            //test
             if (Input.GetKeyDown(KeyCode.Space)) {
                 Throw();
             }
