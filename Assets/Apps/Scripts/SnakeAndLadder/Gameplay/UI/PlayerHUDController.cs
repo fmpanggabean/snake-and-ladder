@@ -7,6 +7,8 @@ namespace SnakeAndLadder.Gameplay
 {
     public class PlayerHUDController : MonoBehaviour
     {
+        private PlayerManager PlayerManager => FindObjectOfType<PlayerManager>();
+
         [SerializeField]
         private GameObject playerHUDPrefab;
 
@@ -16,17 +18,17 @@ namespace SnakeAndLadder.Gameplay
         [SerializeField]
         private PersistentData persistentData;
 
-        private List<PlayerHUD> playerHUDs;
+        private List<PlayerHUD> playerHUDs = new List<PlayerHUD>();
 
         private void Awake() {
-            playerHUDs = new List<PlayerHUD>();
-
-            GenerateHUD();
+            PlayerManager.OnPlayerGenerated += GenerateHUD;
         }
 
-        private void GenerateHUD() {
+        private void GenerateHUD(List<Player> players) {
             for (int i = 0; i < persistentData.playerCount; i++) {
-                playerHUDs.Add(Instantiate(playerHUDPrefab, playerHUDAnchor[i]).GetComponent<PlayerHUD>());
+                PlayerHUD hud = Instantiate(playerHUDPrefab, playerHUDAnchor[i]).GetComponent<PlayerHUD>();
+                hud.SetLabel(players[i].PlayerLabel);
+                playerHUDs.Add(hud);
             }
         }
     }
