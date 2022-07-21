@@ -7,10 +7,16 @@ namespace SnakeAndLadder.Gameplay {
     }
     [Serializable]
     internal class PlayerTurn {
+        private GameManager GameManager;
         public event Action<PlayerLabel> OnPlayerTurnSet;
-
         public PlayerLabel Current { private set; get; }
 
+        public PlayerTurn(GameManager gameManager) {
+            this.GameManager = gameManager;
+
+            OnPlayerTurnSet += GameManager.Highlight;
+            OnPlayerTurnSet += GameManager.SetCameraToPlayer;
+        }
         internal void Set(PlayerLabel playerLabel) {
             Current = playerLabel;
             OnPlayerTurnSet?.Invoke(Current);

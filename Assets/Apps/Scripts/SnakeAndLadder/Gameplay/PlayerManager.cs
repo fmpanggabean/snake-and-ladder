@@ -25,12 +25,10 @@ namespace SnakeAndLadder.Gameplay
         private void SetPlayerEvent() {
             PlayerList.ForEach((player) => player.OnArrived += PlayerArrived);
         }
-
         private void PlayerArrived() {
             Debug.Log("Arrived");
             OnPlayerArrived?.Invoke();
         }
-
         private void SetPlayerOnStartingPosition() {
             PlayerList.ForEach((player) => player.SetPosition(World.GetBlock(0)));
         }
@@ -42,7 +40,6 @@ namespace SnakeAndLadder.Gameplay
                 PlayerList.Add(player);
             }
         }
-
         internal Player GetPlayer(PlayerLabel playerLabel) {
             return PlayerList[((int)playerLabel)];
         }

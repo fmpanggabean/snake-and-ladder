@@ -19,11 +19,11 @@ namespace SnakeAndLadder.Gameplay
         [SerializeField]
         private int diceValue;
 
-        private void Update() {
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                Roll();
-            }
-        }
+        //private void Update() {
+        //    if (Input.GetKeyDown(KeyCode.Space)) {
+        //        Roll();
+        //    }
+        //}
 
         internal void Disable() {
             OnDisabled?.Invoke();

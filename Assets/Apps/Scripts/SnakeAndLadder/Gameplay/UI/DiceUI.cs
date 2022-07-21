@@ -10,6 +10,7 @@ namespace SnakeAndLadder.Gameplay
     public class DiceUI : MonoBehaviour {
         private Animator Animator => GetComponent<Animator>();
         private Dice Dice => FindObjectOfType<Dice>();
+        private PlayerManager PlayerManager => FindObjectOfType<PlayerManager>();
         
         private event Action OnUIShown;
         private event Action OnUIHidden;
@@ -28,6 +29,12 @@ namespace SnakeAndLadder.Gameplay
             Dice.OnRandomizeEnd += HideMenu;
             Dice.OnEnabled += EnableRollButton;
             Dice.OnDisabled += DisableRollButton;
+
+            PlayerManager.OnPlayerArrived += ShowRollButton;
+        }
+
+        private void ShowRollButton() {
+            Show(ButtonRoll.gameObject);
         }
 
         private void EnableRollButton() {
@@ -63,7 +70,6 @@ namespace SnakeAndLadder.Gameplay
             while (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1f || Animator.IsInTransition(0)) {
                 yield return null;
             }
-            Show(ButtonRoll.gameObject);
             Hide(TextRandomNumber.gameObject);
 
             OnUIHidden?.Invoke();

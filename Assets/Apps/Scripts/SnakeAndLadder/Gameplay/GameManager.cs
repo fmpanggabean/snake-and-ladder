@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 namespace SnakeAndLadder.Gameplay
 {
@@ -10,8 +11,9 @@ namespace SnakeAndLadder.Gameplay
     }
     public class GameManager : MonoBehaviour
     {
+        private CinemachineVirtualCamera CinemachineVirtualCamera => FindObjectOfType<CinemachineVirtualCamera>();
         private PlayerManager PlayerManager => FindObjectOfType<PlayerManager>();
-        private PlayerTurn PlayerTurn = new PlayerTurn();
+        private PlayerTurn PlayerTurn;
         private Dice Dice => FindObjectOfType<Dice>();
 
         public event Action OnGameInitialize;
@@ -19,15 +21,16 @@ namespace SnakeAndLadder.Gameplay
 
         public bool IsPlaying { set; get; }
 
+        public GameManager() {
+            PlayerTurn = new PlayerTurn(this);
+        }
         private void Awake() {
             OnGameInitialize += Dice.Disable;
             OnGameInitialize += PlayerManager.Initialize;
             OnGameStart += Dice.Enabled;
             Dice.OnDiceEnd += PlayerMove;
             PlayerManager.OnPlayerArrived += PlayerTurn.Next;
-            PlayerTurn.OnPlayerTurnSet += Highlight;
         }
-
         private void Start() {
             OnGameInitialize?.Invoke();
 
@@ -47,9 +50,13 @@ namespace SnakeAndLadder.Gameplay
         private void PlayerMove(int step) {
             PlayerManager.GetPlayer(PlayerTurn.Current).Move(step);
         }
+        public void SetCameraToPlayer(PlayerLabel playerLabel) {
+            //set camera to player
+            CinemachineVirtualCamera.LookAt = PlayerManager.GetPlayer(playerLabel).transform;
+            CinemachineVirtualCamera.Follow = PlayerManager.GetPlayer(playerLabel).transform;
+        }
 
-
-        private void Highlight(PlayerLabel playerLabel) {
+        public void Highlight(PlayerLabel playerLabel) {
             Debug.Log("Current player: " + playerLabel);
         }
     }
