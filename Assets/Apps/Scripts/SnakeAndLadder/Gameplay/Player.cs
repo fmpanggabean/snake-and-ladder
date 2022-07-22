@@ -25,7 +25,7 @@ namespace SnakeAndLadder.Gameplay {
             while (step > 0) {
                 Block targetBlock = Block.GetNextBlock();
 
-                Debug.Log(targetBlock);
+                //Debug.Log(targetBlock);
                 if (targetBlock == null) {
                     break;
                 }

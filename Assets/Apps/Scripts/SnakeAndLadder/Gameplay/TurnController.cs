@@ -6,14 +6,16 @@ namespace SnakeAndLadder.Gameplay {
         Player_1, Player_2, Player_3, Player_4
     }
     [Serializable]
-    internal class PlayerTurn {
-        private GameManager GameManager;
-        public event Action<PlayerLabel> OnPlayerTurnSet;
+    internal class TurnController : MonoBehaviour {
+        private GameManager GameManager => FindObjectOfType<GameManager>();
         public PlayerLabel Current { private set; get; }
 
-        public PlayerTurn(GameManager gameManager) {
-            this.GameManager = gameManager;
+        [SerializeField]
+        private PersistentData PersistentData;
 
+        public event Action<PlayerLabel> OnPlayerTurnSet;
+
+        private void Awake() {
             OnPlayerTurnSet += GameManager.Highlight;
             OnPlayerTurnSet += GameManager.SetCameraToPlayer;
         }
@@ -22,7 +24,7 @@ namespace SnakeAndLadder.Gameplay {
             OnPlayerTurnSet?.Invoke(Current);
         }
         internal void Next() {
-            if (((int)Current) == 3) {
+            if (((int)Current) == PersistentData.playerQuantity-1) {
                 Set(0);
             } else {
                 Set(Current+1);
