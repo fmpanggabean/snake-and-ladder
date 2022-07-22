@@ -6,17 +6,12 @@ using Cinemachine;
 
 namespace SnakeAndLadder.Gameplay
 {
-    public static class PersistentData {
-        public static int playerQuantity = 4;
-    }
     public class GameManager : MonoBehaviour
     {
         private CinemachineVirtualCamera CinemachineVirtualCamera => FindObjectOfType<CinemachineVirtualCamera>();
-
-
         private PlayerManager PlayerManager => FindObjectOfType<PlayerManager>();
-        private PlayerTurn PlayerTurn;
         private Dice Dice => FindObjectOfType<Dice>();
+        private TurnController TurnController => FindObjectOfType<TurnController>();
 
         public event Action OnGameInitialize;
         public event Action OnGameStart;
@@ -24,15 +19,12 @@ namespace SnakeAndLadder.Gameplay
 
         public bool IsPlaying { set; get; }
 
-        public GameManager() {
-            PlayerTurn = new PlayerTurn(this);
-        }
+
         private void Awake() {
             OnGameInitialize += Dice.Disable;
             OnGameInitialize += PlayerManager.Initialize;
             OnGameStart += Dice.Enabled;
             Dice.OnDiceEnd += PlayerMove;
-            //PlayerManager.OnPlayerArrived += PlayerTurn.Next;
             PlayerManager.OnPlayerArrived += EvaluateBlock;
         }
         private void Start() {
@@ -42,7 +34,7 @@ namespace SnakeAndLadder.Gameplay
         }
         private void Update() {
             if (Input.GetKeyDown(KeyCode.Alpha1)) {
-                PlayerTurn.Next();
+                TurnController.Next();
             }
         }
 
@@ -50,11 +42,11 @@ namespace SnakeAndLadder.Gameplay
             if (!IsPlaying) {
                 return;
             }
-            if (PlayerManager.GetPlayer(PlayerTurn.Current).IsOnEffector()) {
+            if (PlayerManager.GetPlayer(TurnController.Current).IsOnEffector()) {
                 Debug.Log("Is on effector");
-                PlayerManager.GetPlayer(PlayerTurn.Current).ApplyEffector();
+                PlayerManager.GetPlayer(TurnController.Current).ApplyEffector();
             }
-            StartCoroutine(DelayedAction(PlayerTurn.Next));
+            StartCoroutine(DelayedAction(TurnController.Next));
         }
         private IEnumerator DelayedAction(Action action) {
             yield return new WaitForSeconds(0.5f);
@@ -62,12 +54,12 @@ namespace SnakeAndLadder.Gameplay
         }
         private void StartGame() {
             IsPlaying = true;
-            PlayerTurn.Set(PlayerLabel.Player_1);
+            TurnController.Set(PlayerLabel.Player_1);
 
             OnGameStart?.Invoke();
         }
         private void PlayerMove(int step) {
-            PlayerManager.GetPlayer(PlayerTurn.Current).Move(step);
+            PlayerManager.GetPlayer(TurnController.Current).Move(step);
         }
         public void SetCameraToPlayer(PlayerLabel playerLabel) {
             //set camera to player

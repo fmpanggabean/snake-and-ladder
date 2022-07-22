@@ -14,6 +14,8 @@ namespace SnakeAndLadder.Gameplay
 
         public GameObject playerPrefab;
 
+        public PersistentData PersistentData;
+
         public event Action OnPlayerArrived;
 
         public void Initialize() {
@@ -21,7 +23,6 @@ namespace SnakeAndLadder.Gameplay
             SetPlayerOnStartingPosition();
             SetPlayerEvent();
         }
-
         private void SetPlayerEvent() {
             PlayerList.ForEach((player) => player.OnArrived += PlayerArrived);
         }
@@ -29,7 +30,6 @@ namespace SnakeAndLadder.Gameplay
             Debug.Log("Player Arrived");
             StartCoroutine(DelayedAction(OnPlayerArrived));
         }
-
         private IEnumerator DelayedAction(Action action) {
             yield return new WaitForSeconds(.5f);
             action?.Invoke();

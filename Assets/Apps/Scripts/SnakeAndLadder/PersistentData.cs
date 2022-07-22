@@ -4,18 +4,9 @@ using UnityEngine;
 
 namespace SnakeAndLadder
 {
-    public class PersistentData : MonoBehaviour
+    [CreateAssetMenu(fileName = "Persistent Data", menuName = "Scriptable Objects/Persistent Data")]
+    public class PersistentData : ScriptableObject
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        public int playerQuantity;
     }
 }
