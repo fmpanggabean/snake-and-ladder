@@ -5,12 +5,12 @@ using UnityEditor;
 using SnakeAndLadder.Gameplay;
 using System;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(World))]
 [CanEditMultipleObjects]
 public class WorldEditor : Editor
 {
     private World World => (World)target;
-
     public override void OnInspectorGUI() {
         base.OnInspectorGUI();
 
@@ -39,3 +39,4 @@ public class WorldEditor : Editor
         }
     }
 }
+#endif
