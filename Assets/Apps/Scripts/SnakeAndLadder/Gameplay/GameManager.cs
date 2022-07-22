@@ -66,9 +66,6 @@ namespace SnakeAndLadder.Gameplay
             CinemachineVirtualCamera.LookAt = PlayerManager.GetPlayer(playerLabel).transform;
             CinemachineVirtualCamera.Follow = PlayerManager.GetPlayer(playerLabel).transform;
         }
-        public void Highlight(PlayerLabel playerLabel) {
-            Debug.Log("Current player: " + playerLabel);
-        }
         internal void GameOver(Player player) {
             Debug.Log(player + " Reach end point!");
             IsPlaying = false;

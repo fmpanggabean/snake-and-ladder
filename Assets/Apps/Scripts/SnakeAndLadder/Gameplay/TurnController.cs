@@ -16,7 +16,6 @@ namespace SnakeAndLadder.Gameplay {
         public event Action<PlayerLabel> OnPlayerTurnSet;
 
         private void Awake() {
-            OnPlayerTurnSet += GameManager.Highlight;
             OnPlayerTurnSet += GameManager.SetCameraToPlayer;
         }
         internal void Set(PlayerLabel playerLabel) {
