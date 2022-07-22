@@ -32,7 +32,7 @@ namespace SnakeAndLadder.Gameplay {
         private IEnumerator UpdatePosition(Block target) {
             while (true) {
                 transform.LookAt(target.GetPosition());
-                transform.position += transform.forward * Time.deltaTime;
+                transform.position += transform.forward * Time.deltaTime * 2;
 
                 if (Vector3.Distance(transform.position, target.GetPosition()) < 0.02f) {
                     break;
