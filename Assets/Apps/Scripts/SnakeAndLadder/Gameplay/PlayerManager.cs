@@ -17,6 +17,7 @@ namespace SnakeAndLadder.Gameplay
         public PersistentData PersistentData;
 
         public event Action OnPlayerArrived;
+        public event Action<List<Player>> OnPlayerGenerated;
 
         public void Initialize() {
             GeneratePlayer();
@@ -44,6 +45,7 @@ namespace SnakeAndLadder.Gameplay
                 player.SetLabel((PlayerLabel)i);
                 PlayerList.Add(player);
             }
+            OnPlayerGenerated?.Invoke(PlayerList);
         }
         internal Player GetPlayer(PlayerLabel playerLabel) {
             return PlayerList[((int)playerLabel)];

@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 
 namespace SnakeAndLadder.Gameplay {
-    internal class Player : MonoBehaviour {
+    public class Player : MonoBehaviour {
         private Block Block;
         private EffectorBlockSource effectorBlockSource;
         public PlayerLabel PlayerLabel;
