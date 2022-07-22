@@ -41,7 +41,7 @@ namespace SnakeAndLadder.Gameplay
             for (int i = 0; i < PersistentData.playerQuantity; i++) {
                 GameObject go = Instantiate(playerPrefab, transform);
                 Player player = go.GetComponent<Player>();
-
+                player.SetLabel((PlayerLabel)i);
                 PlayerList.Add(player);
             }
         }

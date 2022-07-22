@@ -7,7 +7,7 @@ using TMPro;
 
 namespace SnakeAndLadder.Gameplay
 {
-    public class DiceUI : MonoBehaviour {
+    public class DiceUI : MonoBehaviour, IHideShow {
         private Animator Animator => GetComponent<Animator>();
         private Dice Dice => FindObjectOfType<Dice>();
         private PlayerManager PlayerManager => FindObjectOfType<PlayerManager>();
@@ -74,10 +74,11 @@ namespace SnakeAndLadder.Gameplay
 
             OnUIHidden?.Invoke();
         }
-        private void Hide(GameObject gameObject) {
+        public void Hide(GameObject gameObject) {
             gameObject.SetActive(false);
         }
-        private void Show(GameObject gameObject) {
+
+        public void Show(GameObject gameObject) {
             gameObject.SetActive(true);
         }
     }

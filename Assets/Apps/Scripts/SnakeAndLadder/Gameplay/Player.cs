@@ -6,6 +6,7 @@ namespace SnakeAndLadder.Gameplay {
     internal class Player : MonoBehaviour {
         private Block Block;
         private EffectorBlockSource effectorBlockSource;
+        public PlayerLabel PlayerLabel;
 
         public event Action OnArrived;
 
@@ -25,7 +26,12 @@ namespace SnakeAndLadder.Gameplay {
                 Block targetBlock = Block.GetNextBlock();
 
                 Debug.Log(targetBlock);
+                if (targetBlock == null) {
+                    break;
+                }
+                
                 yield return UpdatePosition(targetBlock);
+
                 step--;
             }
             OnArrived?.Invoke();
@@ -33,7 +39,7 @@ namespace SnakeAndLadder.Gameplay {
         private IEnumerator UpdatePosition(Block target) {
             while (true) {
                 transform.LookAt(target.GetPosition());
-                transform.position += transform.forward * Time.deltaTime * 2;
+                transform.position += transform.forward * Time.deltaTime * 5;
 
                 if (Vector3.Distance(transform.position, target.GetPosition()) < 0.02f) {
                     break;
@@ -49,6 +55,11 @@ namespace SnakeAndLadder.Gameplay {
             }
             return true;
         }
+
+        internal void SetLabel(PlayerLabel label) {
+            PlayerLabel = label;
+        }
+
         private void OnTriggerEnter(Collider collider) {
             if (collider.GetComponent<EffectorBlockSource>()) {
                 effectorBlockSource = collider.GetComponent<EffectorBlockSource>();

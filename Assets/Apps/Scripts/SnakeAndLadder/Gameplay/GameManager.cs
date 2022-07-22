@@ -12,12 +12,15 @@ namespace SnakeAndLadder.Gameplay
     public class GameManager : MonoBehaviour
     {
         private CinemachineVirtualCamera CinemachineVirtualCamera => FindObjectOfType<CinemachineVirtualCamera>();
+
+
         private PlayerManager PlayerManager => FindObjectOfType<PlayerManager>();
         private PlayerTurn PlayerTurn;
         private Dice Dice => FindObjectOfType<Dice>();
 
         public event Action OnGameInitialize;
         public event Action OnGameStart;
+        public event Action<PlayerLabel> OnGameOver;
 
         public bool IsPlaying { set; get; }
 
@@ -44,6 +47,9 @@ namespace SnakeAndLadder.Gameplay
         }
 
         private void EvaluateBlock() {
+            if (!IsPlaying) {
+                return;
+            }
             if (PlayerManager.GetPlayer(PlayerTurn.Current).IsOnEffector()) {
                 Debug.Log("Is on effector");
                 PlayerManager.GetPlayer(PlayerTurn.Current).ApplyEffector();
@@ -55,6 +61,7 @@ namespace SnakeAndLadder.Gameplay
             action?.Invoke();
         }
         private void StartGame() {
+            IsPlaying = true;
             PlayerTurn.Set(PlayerLabel.Player_1);
 
             OnGameStart?.Invoke();
@@ -69,6 +76,11 @@ namespace SnakeAndLadder.Gameplay
         }
         public void Highlight(PlayerLabel playerLabel) {
             Debug.Log("Current player: " + playerLabel);
+        }
+        internal void GameOver(Player player) {
+            Debug.Log(player + " Reach end point!");
+            IsPlaying = false;
+            OnGameOver?.Invoke(player.PlayerLabel);
         }
     }
 }
