@@ -29,7 +29,8 @@ namespace SnakeAndLadder.Gameplay
             OnGameInitialize += PlayerManager.Initialize;
             OnGameStart += Dice.Enabled;
             Dice.OnDiceEnd += PlayerMove;
-            PlayerManager.OnPlayerArrived += PlayerTurn.Next;
+            //PlayerManager.OnPlayerArrived += PlayerTurn.Next;
+            PlayerManager.OnPlayerArrived += EvaluateBlock;
         }
         private void Start() {
             OnGameInitialize?.Invoke();
@@ -42,6 +43,17 @@ namespace SnakeAndLadder.Gameplay
             }
         }
 
+        private void EvaluateBlock() {
+            if (PlayerManager.GetPlayer(PlayerTurn.Current).IsOnEffector()) {
+                Debug.Log("Is on effector");
+                PlayerManager.GetPlayer(PlayerTurn.Current).ApplyEffector();
+            }
+            StartCoroutine(DelayedAction(PlayerTurn.Next));
+        }
+        private IEnumerator DelayedAction(Action action) {
+            yield return new WaitForSeconds(0.5f);
+            action?.Invoke();
+        }
         private void StartGame() {
             PlayerTurn.Set(PlayerLabel.Player_1);
 
@@ -55,7 +67,6 @@ namespace SnakeAndLadder.Gameplay
             CinemachineVirtualCamera.LookAt = PlayerManager.GetPlayer(playerLabel).transform;
             CinemachineVirtualCamera.Follow = PlayerManager.GetPlayer(playerLabel).transform;
         }
-
         public void Highlight(PlayerLabel playerLabel) {
             Debug.Log("Current player: " + playerLabel);
         }

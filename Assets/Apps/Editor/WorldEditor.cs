@@ -33,5 +33,9 @@ public class WorldEditor : Editor
             World.RemoveLast();
             EditorUtility.SetDirty(World);
         }
+        if (GUILayout.Button("Remove All")) {
+            World.ClearBlock();
+            EditorUtility.SetDirty(World);
+        }
     }
 }

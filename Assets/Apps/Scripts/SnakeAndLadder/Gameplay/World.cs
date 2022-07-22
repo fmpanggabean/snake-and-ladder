@@ -16,6 +16,12 @@ namespace SnakeAndLadder.Gameplay {
         }
 
 #if UNITY_EDITOR
+        public void ClearBlock() {
+            int blockCount = blockList.Count;
+            for (int i=0; i<blockCount; i++) {
+                RemoveLast();
+            }
+        }
         public void CreateBlock(Vector3 offset) {
             Block block = Instantiate(blockPrefab, transform).GetComponent<Block>();
             //GameObject gameObject = (GameObject)PrefabUtility.InstantiatePrefab(blockPrefab, transform);

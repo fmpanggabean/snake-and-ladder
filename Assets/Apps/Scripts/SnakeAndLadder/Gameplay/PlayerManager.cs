@@ -26,8 +26,13 @@ namespace SnakeAndLadder.Gameplay
             PlayerList.ForEach((player) => player.OnArrived += PlayerArrived);
         }
         private void PlayerArrived() {
-            Debug.Log("Arrived");
-            OnPlayerArrived?.Invoke();
+            Debug.Log("Player Arrived");
+            StartCoroutine(DelayedAction(OnPlayerArrived));
+        }
+
+        private IEnumerator DelayedAction(Action action) {
+            yield return new WaitForSeconds(.5f);
+            action?.Invoke();
         }
         private void SetPlayerOnStartingPosition() {
             PlayerList.ForEach((player) => player.SetPosition(World.GetBlock(0)));

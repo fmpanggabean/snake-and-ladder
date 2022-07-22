@@ -5,6 +5,7 @@ using System.Collections;
 namespace SnakeAndLadder.Gameplay {
     internal class Player : MonoBehaviour {
         private Block Block;
+        private EffectorBlockSource effectorBlockSource;
 
         public event Action OnArrived;
 
@@ -32,7 +33,7 @@ namespace SnakeAndLadder.Gameplay {
         private IEnumerator UpdatePosition(Block target) {
             while (true) {
                 transform.LookAt(target.GetPosition());
-                transform.position += transform.forward * Time.deltaTime;
+                transform.position += transform.forward * Time.deltaTime * 2;
 
                 if (Vector3.Distance(transform.position, target.GetPosition()) < 0.02f) {
                     break;
@@ -40,6 +41,27 @@ namespace SnakeAndLadder.Gameplay {
                 yield return null;
             }
             Block = target;
+        }
+
+        internal bool IsOnEffector() {
+            if (effectorBlockSource == null) {
+                return false;
+            }
+            return true;
+        }
+        private void OnTriggerEnter(Collider collider) {
+            if (collider.GetComponent<EffectorBlockSource>()) {
+                effectorBlockSource = collider.GetComponent<EffectorBlockSource>();
+            }
+        }
+        private void OnTriggerExit(Collider collider) {
+            if (collider.GetComponent<EffectorBlockSource>()) {
+                effectorBlockSource = null;
+            }
+        }
+
+        public void ApplyEffector() {
+            SetPosition(effectorBlockSource.GetDestination());
         }
     }
 }
