@@ -8,6 +8,7 @@ namespace SnakeAndLadder.Menu
 {
     public class PlayerCountSelectionUI : MonoBehaviour
     {
+        //button player selection
         public Button selectPlayer2;
         public Button selectPlayer3;
         public Button selectPlayer4;
